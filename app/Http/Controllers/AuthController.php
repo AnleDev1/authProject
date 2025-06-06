@@ -14,7 +14,6 @@ class AuthController extends Controller
     public function register(Request $request) {
         $validator = Validator::make($request->all(),[
             'name' => 'required|string|min:2|max:100',
-            'role' => 'required|string|in:admin,user',
             'email' => 'required|string|email|min:10|max:75|unique:users',
             'password' => 'required|string|min:10|confimed',
         ]);
@@ -23,7 +22,7 @@ class AuthController extends Controller
         }
         User::create([
             'name'=> $request->get('name'),
-            'role'=> $request->get('role'),
+            'role'=> 'user',
             'password'=> bcrypt($request->get('password')),
         ]);
         
@@ -31,7 +30,7 @@ class AuthController extends Controller
 
     public function login(Request $request) {
         $validator = Validator::make($request->all(),[
-            'email' => 'required|string|email|min:10|max:75|unique:users',
+            'email' => 'required|string|email|min:10|max:75',
             'password' => 'required|string|min:10',
         ]);
         if ($validator->fails()) {
@@ -52,6 +51,11 @@ class AuthController extends Controller
     public function getUser() {
         $user = Auth::user();
         return response()->json($user, 200);
+    }
+
+    public function logout()  {
+        JWTAuth::invalidate(JWTAuth::getToken());
+        return response()->json(['message', 'Logged out'], 200);
     }
 
 }
