@@ -17,7 +17,7 @@ class ProductController extends Controller
         return response()->json(['products' => $products], 200);
     }
 
-    /*METODO QUE DEVUEL UN PRODUCTO MEDIANTE EL ID*/
+    /*METODO QUE DEVUELVE UN PRODUCTO MEDIANTE EL ID*/
     public function getProductById($id){
         $product = Product::find($id);
         if (!$product) {
