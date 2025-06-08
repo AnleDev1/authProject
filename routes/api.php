@@ -27,7 +27,6 @@ Route::middleware(IsUserAuth::class)->group(function () {
 
 
     Route::middleware(IsAdmin::class)->group(function () {
-
         Route::controller(ProductController::class)->group(function () {
             Route::post('products','addProduct');
             Route::get('/products/{id}','getProductById');
