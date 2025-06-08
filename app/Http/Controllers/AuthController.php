@@ -15,17 +15,18 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required|string|min:2|max:100',
             'email' => 'required|string|email|min:10|max:75|unique:users',
-            'password' => 'required|string|min:10|confimed',
+            'password' => 'required|string|min:10|confirmed',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
         User::create([
             'name'=> $request->get('name'),
+            'email' => $request->get('email'),
             'role'=> 'user',
             'password'=> bcrypt($request->get('password')),
         ]);
-        
+        return response()->json(['message' => 'Usuario registrado correctamente'], 201);
     }
 
     public function login(Request $request) {
@@ -57,5 +58,5 @@ class AuthController extends Controller
         JWTAuth::invalidate(JWTAuth::getToken());
         return response()->json(['message' => 'Logged out'], 200);
     }
-
+    
 }
