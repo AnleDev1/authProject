@@ -20,6 +20,7 @@ Route::middleware(IsUserAuth::class)->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('logout', 'logout');
         Route::get('me', 'getUser');
+        Route::put('userUpdate', 'updateUser');
     });
 
       Route::get('products', [ProductController::class, 'getProducts']);
